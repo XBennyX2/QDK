@@ -30,3 +30,19 @@ def prepare_state(bit: int, basis: str) -> QuantumCircuit:
         raise ValueError("basis must be 'Z' or 'X'")
     return qc
 
+def measure_in_basis(qc_prep: QuantumCircuit, basis: str) -> int:
+    """
+    Measure the prepared circuit qc_prep in basis 'Z' or 'X'.
+    Returns measured bit (0 or 1).
+    """
+    qc = qc_prep.copy()
+    if basis == 'X':
+        qc.h(0)
+    qc.measure(0, 0)
+    job = simulator.run(qc, shots=1)
+    result = job.result()
+    counts = result.get_counts()
+    # single-shot => one key in counts
+    bitstr = list(counts.keys())[0]
+    return int(bitstr)
+

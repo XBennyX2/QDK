@@ -13,3 +13,11 @@ PRINT_EXAMPLE = 40
 
 simulator = AerSimulator()
 
+
+def prepare_bell_pair() -> QuantumCircuit:
+    """Prepare a Bell state |Φ+>"""
+    qc = QuantumCircuit(2, 2)
+    qc.h(0)
+    qc.cx(0, 1)
+    return qc
+

@@ -14,3 +14,19 @@ PRINT_EXAMPLE = 40         # how many transmissions to print in detail
 simulator = AerSimulator()
 
 
+def prepare_state(bit: int, basis: str) -> QuantumCircuit:
+    """Return a QuantumCircuit(1,1) preparing 'bit' in basis 'Z' or 'X'."""
+    qc = QuantumCircuit(1, 1)
+    if basis == 'Z':
+        if bit == 1:
+            qc.x(0)
+    elif basis == 'X':
+        if bit == 0:
+            qc.h(0)         # |+>
+        else:
+            qc.x(0)
+            qc.h(0)         # |->
+    else:
+        raise ValueError("basis must be 'Z' or 'X'")
+    return qc
+
